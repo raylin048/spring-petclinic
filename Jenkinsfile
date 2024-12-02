@@ -43,6 +43,38 @@ pipeline {
         """
       }
     }
+    stage('Remove Docker Image') {
+      steps {
+        sh """
+        docker rmi raylin048/spring-petclinic:$BUILD_NUMBER
+        docker rmi raylin048/spring-petclinic:latest
+        """
+      }
+    }
+    stage('Docker Container') {
+      steps {
+        sshPublisher(publishers: [sshPublisherDesc(configName: 'target', 
+        transfers: [sshTransfer(cleanRemote: false, 
+        excludes: '', 
+        execCommand: '''
+        docker rm -f $(docker ps -aq)
+        docker rmi $(docker images -q)
+        docker run -d -p 80:8080 --name spring-petclinic raylin048/spring-petclinic:latest
+        ''', 
+        execTimeout: 120000, 
+        flatten: false, 
+        makeEmptyDirs: false, 
+        noDefaultExcludes: false, 
+        patternSeparator: '[, ]+', 
+        remoteDirectory: '', 
+        remoteDirectorySDF: false, 
+        removePrefix: '', 
+        sourceFiles: '')], 
+        usePromotionTimestamp: false, 
+        useWorkspaceInPromotion: false, 
+        verbose: false)])
+      }
+    }
     // // target 컴퓨터로 명령어 날리는 단계
     // stage('SSH Publish') {
     //   steps {
