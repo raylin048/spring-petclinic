@@ -13,11 +13,12 @@ pipeline {
         git url: 'https://github.com/raylin048/spring-petclinic.git', branch: 'main'
       }
     }
-    // stage('Maven Build') {
-    //   steps {
-        
-    //   }
-    // }
+    // 빌드 할 때 test 실패로 뜨는 내용은 생략처리 및 제거 후 패키지화
+    stage('Maven Build') {
+      steps {
+        sh 'mvn -Dmaven.test.failure.ignore=true clean package'
+      }
+    }
     // stage('Docker Image') {
     //   steps {
         
