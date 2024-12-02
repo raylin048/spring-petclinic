@@ -19,11 +19,17 @@ pipeline {
         sh 'mvn -Dmaven.test.failure.ignore=true clean package'
       }
     }
-    // stage('Docker Image') {
-    //   steps {
-        
-    //   }
-    // }
+    stage('Docker Image') {
+      steps {
+        // 환경변수로 특정 디렉토리 지정하여 여기에서만 작업하라는 의미
+        dir("${env.WORKSPACE}") {
+          sh """
+          docker build -t raylin048/spring-petclinic:$BUILD_NUMBER .
+          docker tag raylin048/spring-petclinic:$BUILD_NUMBER raylin048/spring-petclinic:lastest
+          """
+        }
+      }
+    }
     // // 
     // stage('Docker Image Push') {
     //   steps {
