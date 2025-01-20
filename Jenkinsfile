@@ -8,9 +8,9 @@ pipeline {
 
   // DockerHub 접속 정보
   environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerCredentials')
-    AWS_CREDENTIALS = credentials('AWSCredentials')
-    GIT_CREDENTIALS = credentials('gitCredentials')
+    DOCKERHUB_CREDENTIALS = credentials('dockerCredential')
+    AWS_CREDENTIALS = credentials('AWSCredential')
+    GIT_CREDENTIALS = credentials('gitCredential')
     REGION = 'ap-northeast-2'
   }
 
@@ -20,7 +20,7 @@ pipeline {
       steps {
         echo 'Git Clone'
         git url: 'https://github.com/raylin048/spring-petclinic.git',
-          branch: 'main', credentialId: 'GIT_CREDENTIALS'
+          branch: 'main', credentialsId: 'GIT_CREDENTIALS'
       }
     }
     // // 빌드 할 때 test 실패로 뜨는 내용은 생략처리 및 제거 후 패키지화
