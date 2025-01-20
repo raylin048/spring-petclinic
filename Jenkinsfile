@@ -60,14 +60,15 @@ pipeline {
     //     """
     //   }
     // }
-    // stage('Remove Docker Image') {
-    //   steps {
-    //     sh """
-    //     docker rmi raylin048/spring-petclinic:$BUILD_NUMBER
-    //     docker rmi raylin048/spring-petclinic:latest
-    //     """
-    //   }
-    // }
+    // Docker Image 삭제
+    stage('Remove Docker Image') {
+      steps {
+        sh """
+        docker rmi raylin048/spring-petclinic:$BUILD_NUMBER
+        docker rmi raylin048/spring-petclinic:latest
+        """
+      }
+    }
     // stage('Docker Container') {
     //   steps {
     //     sshPublisher(publishers: [sshPublisherDesc(configName: 'target', 
