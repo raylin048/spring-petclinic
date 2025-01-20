@@ -20,7 +20,7 @@ pipeline {
       steps {
         echo 'Git Clone'
         git url: 'https://github.com/raylin048/spring-petclinic.git',
-          branch: 'main', credentialIdL: 'GIT_CREDENTIALS'
+          branch: 'main', credentialId: 'GIT_CREDENTIALS'
       }
     }
     // // 빌드 할 때 test 실패로 뜨는 내용은 생략처리 및 제거 후 패키지화
