@@ -23,23 +23,26 @@ pipeline {
           branch: 'main', credentialsId: 'GIT_CREDENTIALS'
       }
     }
-    // // 빌드 할 때 test 실패로 뜨는 내용은 생략처리 및 제거 후 패키지화
-    // stage('Maven Build') {
-    //   steps {
-    //     sh 'mvn -Dmaven.test.failure.ignore=true clean package'
-    //   }
-    // }
-    // stage('Docker Image') {
-    //   steps {
-    //     // 환경변수로 특정 디렉토리 지정하여 여기에서만 작업하라는 의미
-    //     dir("${env.WORKSPACE}") {
-    //       sh """
-    //       docker build -t raylin048/spring-petclinic:$BUILD_NUMBER .
-    //       docker tag raylin048/spring-petclinic:$BUILD_NUMBER raylin048/spring-petclinic:latest
-    //       """
-    //     }
-    //   }
-    // }
+    // Maven 빌드 할 때 test 실패로 뜨는 내용은 생략처리 및 제거 후 패키지화
+    stage('Maven Build') {
+      steps {
+        echo 'Maven Build'
+        sh 'mvn -Dmaven.test.failure.ignore=true clean package'
+      }
+    }
+    // Docker Iamge 생성
+    stage('Docker Image Build') {
+      steps {
+        // 환경변수로 특정 디렉토리 지정하여 여기에서만 작업하라는 의미
+        echo 'Docker Image build'
+        dir("${env.WORKSPACE}") {
+          sh """
+          docker build -t raylin048/spring-petclinic:$BUILD_NUMBER .
+          docker tag raylin048/spring-petclinic:$BUILD_NUMBER raylin048/spring-petclinic:latest
+          """
+        }
+      }
+    }
     // stage('Docker Image Push') {
     //   steps {
     //     sh """
