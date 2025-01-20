@@ -74,20 +74,20 @@ pipeline {
         }        
       }
     }
-    // Code Deploy 실행
-    stage('deploy create-deployment') {
-      steps {
-        withAWS(region:"${REGION}", credentials: "${AWS_CREDENTIALS_NAME}"){
-          sh """
-          aws deploy create-deployment \
-          --application-name user09-deploy \
-          --deployment-config-name CodeDeployDefault.OneAtATime \
-          --deployment-group-name user09-deploy-group \
-          --s3-location bucket=user09-bucket,bundleType=zip,key=deploy.zip
-          """
-        }
-      }
-    }
+    // // Code Deploy 실행
+    // stage('deploy create-deployment') {
+    //   steps {
+    //     withAWS(region:"${REGION}", credentials: "${AWS_CREDENTIALS_NAME}"){
+    //       sh """
+    //       aws deploy create-deployment \
+    //       --application-name user09-deploy \
+    //       --deployment-config-name CodeDeployDefault.OneAtATime \
+    //       --deployment-group-name user09-deploy-group \
+    //       --s3-location bucket=user09-bucket,bundleType=zip,key=deploy.zip
+    //       """
+    //     }
+    //   }
+    // }
     // stage('Docker Container') {
     //   steps {
     //     sshPublisher(publishers: [sshPublisherDesc(configName: 'target', 
